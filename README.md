@@ -1,6 +1,12 @@
 # EasyFrontStart
 
-This template should help get you started developing with Vue 3 in Vite.
+本项目基于vue3采用技术栈
+- vue3
+- Vite
+- Element-plus
+- pinia
+- mitt
+- vue-type
 
 ## Recommended IDE Setup
 
