@@ -7,6 +7,7 @@
 - pinia
 - mitt
 - vue-type
+- axios
 
 ## Recommended IDE Setup
 
