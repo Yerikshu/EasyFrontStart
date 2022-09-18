@@ -47,6 +47,8 @@
 import { ref } from "vue";
 
 export default {
+  name: "AsideMenu",
+  components: {},
   setup() {
     const isCollapse = ref(true);
     const handleOpen = (key, keyPath) => {

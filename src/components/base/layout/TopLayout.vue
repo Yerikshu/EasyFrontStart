@@ -11,6 +11,8 @@
 <script>
 import { ref } from "vue";
 export default {
+  name: "TopLayout",
+  components: {},
   setup() {
     const reloadFlag = ref(true);
     return reloadFlag;

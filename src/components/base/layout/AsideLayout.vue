@@ -10,3 +10,10 @@
     </el-container>
   </div>
 </template>
+<script>
+export default {
+  name: "AsideLayout",
+  components: {},
+  setup() {},
+};
+</script>
