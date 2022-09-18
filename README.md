@@ -1,7 +1,7 @@
 # EasyFrontStart
 
 本项目基于vue3采用技术栈
-- vue3
+- Vue3
 - Vite
 - Element-plus
 - pinia
