@@ -33,18 +33,9 @@
     </span>
   </el-row>
 </template>
-<script>
+<script setup>
 import { ref } from "vue";
-export default {
-  name: "TopMenu",
-  setup() {
-    const changeAside = () => {};
-    const changeIcon = ref(true);
 
-    return {
-      changeAside,
-      changeIcon,
-    };
-  },
-};
+const changeAside = () => {};
+const changeIcon = ref(true);
 </script>
