@@ -4,13 +4,27 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/login',
+      component: () => import('@/views/login/index.vue'),
+      meta: {
+        title: '登录'
+      }
+    },
+    {
       path: "/",
       name: "home",
+      redirect: '/home',
       component: () => import("@/components/base/layout/AsideLayout"),
       meta:{
         title: "首页"
       },
       children:[
+        {
+          path: '/home',
+          component: () => import('@/views/home/index.vue'),
+          name: 'Home',
+          meta: { title: '首页', icon: 'el-icon-s-home', affix: true }
+        },
         {
           path: "/index/about",
           name: "about",
