@@ -1,4 +1,4 @@
-import { fileURLToPath, URL } from "node:url";
+import { resolve } from "path";
 
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@": resolve("./src"),
     },
   },
   // 配置前端服务地址和端口
@@ -24,13 +24,13 @@ export default defineConfig({
     //open: true, // 在服务器启动时自动在浏览器中打开应用程序
     // 设置反向代理，跨域
     proxy: {
-        '/dev-api': {
+      "/dev-api": {
         // 后台地址
-        target: 'http://localhost:8888',
+        target: "http://localhost:8888",
         changeOrigin: true,
-        logLevel: 'debug', // 打印代理以后的地址
-        rewrite: (path) => path.replace(/^\/dev-api/, '')
-      }
+        logLevel: "debug", // 打印代理以后的地址
+        rewrite: (path) => path.replace(/^\/dev-api/, ""),
+      },
     },
   },
 });

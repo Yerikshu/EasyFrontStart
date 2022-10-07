@@ -3,37 +3,38 @@ import { createRouter, createWebHistory } from "vue-router";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/login',
-      component: () => import('@/views/login/index.vue'),
-      meta: {
-        title: '登录'
-      }
-    },
+    // {
+    //   path: "/login",
+    //   component: () => import("@/views/login/index.vue"),
+    //   meta: {
+    //     title: "登录",
+    //   },
+    // },
     {
       path: "/",
-      name: "home",
-      redirect: '/home',
-      component: () => import("@/components/base/layout/AsideLayout"),
-      meta:{
-        title: "首页"
+      redirect: "/home",
+      component: () => import("/src/components/base/layout/AsideLayout.vue"),
+      meta: {
+        title: "首页",
       },
-      children:[
+      children: [
         {
-          path: '/home',
-          component: () => import('@/views/home/index.vue'),
-          name: 'Home',
-          meta: { title: '首页', icon: 'el-icon-s-home', affix: true }
+          path: "/home",
+          component: () => import("/src/views/HomeView.vue"),
+          name: "Home",
+          meta: { title: "首页", icon: "el-icon-s-home", affix: true },
         },
         {
           path: "/index/about",
           name: "about",
-          component: () => import("@/views/AboutView"),
-          meta:{
-            "概要"
-          }
-        }
-      ]
+          component: () => import("/src/views/AboutView.vue"),
+          meta: {
+            title: "概要",
+            icon: "el-icon-s-home",
+            affix: true,
+          },
+        },
+      ],
     },
     // {
     //   path: "/about",
@@ -46,12 +47,12 @@ const router = createRouter({
     {
       path: "/404",
       name: 404,
-      component: () => import("@/views/404"),
+      component: () => import("/src/views/404.vue"),
     },
     {
       path: "/:pathMatch(.*)",
       redirect: "/404",
-    }
+    },
   ],
 });
 
