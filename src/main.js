@@ -3,20 +3,23 @@ import { createPinia } from "pinia";
 
 import App from "./App.vue";
 import router from "./router";
-import mitt from 'mitt'
+import mitt from "mitt";
 
 import "./assets/main.css";
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
-
+import ElementPlus from "element-plus";
+import "element-plus/dist/index.css";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 
 const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
-app.use(ElementPlus,{ locale: zhCn})
+app.use(ElementPlus, { locale: zhCn });
 // vue3.x的全局实例，要挂载在config.globalProperties上
-app.config.globalProperties.$EventBus = new mitt()
+app.config.globalProperties.$EventBus = new mitt();
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component);
+}
 
 app.mount("#app");

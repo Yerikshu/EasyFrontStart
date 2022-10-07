@@ -36,6 +36,8 @@
 <script setup>
 import { ref } from "vue";
 
-const changeAside = () => {};
+const changeAside = () => {
+  changeIcon.value = !changeIcon.value
+};
 const changeIcon = ref(true);
 </script>

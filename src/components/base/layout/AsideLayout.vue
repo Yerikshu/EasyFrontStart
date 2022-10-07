@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-container>
-      <el-aside width="200px">
+    <el-container style="height: auto">
+      <el-aside width="200px" style="height: auto">
         <AsideMenu />
       </el-aside>
-      <el-container>
+      <el-container >
         <el-header style="text-align: right; font-size: 12px">
           <TopMenu />
         </el-header>

@@ -10,6 +10,28 @@
     @open="handleOpen"
     @close="handleClose"
   >
+    <h3 v-if="!isCollapse">
+      <span
+        style="
+          font-size: 20px;
+          color: white;
+          font-weight: 650;
+          margin-left: 30px;
+        "
+        >EASYFRAME</span
+      >
+    </h3>
+    <h3 v-else>
+      <span
+        style="
+          font-size: 20px;
+          color: white;
+          font-weight: 650;
+          margin-left: 30px;
+        "
+        >E</span
+      >
+    </h3>
     <el-sub-menu index="1">
       <template #title>
         <el-icon><location /></el-icon>
@@ -49,7 +71,7 @@ import {
   Menu as IconMenu,
   Location,
   Setting,
-} from '@element-plus/icons-vue'
+} from "@element-plus/icons-vue";
 
 const isCollapse = ref(false);
 const handleOpen = (key, keyPath) => {
