@@ -19,20 +19,20 @@ export default {
   },
 };
 </script>
-<style lang="sass" scoped>
-.SecondRow{
-    height: 50px;
-    background: white;
-    display: flex;
-    border-bottom: 1px rgba(233, 233, 233, 1) solid;
-    ::v-deep{
-        .el-breadcrumb{
-            .el-breadcrumb__item{
-                .el-breadcrumb__inner{
-                    color: #000000a5
-                }
-            }
+<style lang="scss" scoped>
+.SecondRow {
+  height: 50px;
+  background: white;
+  display: flex;
+  border-bottom: 1px rgba(233, 233, 233, 1) solid;
+  ::v-deep {
+    .el-breadcrumb {
+      .el-breadcrumb__item {
+        .el-breadcrumb__inner {
+          color: #000000a5;
         }
+      }
     }
+  }
 }
 </style>

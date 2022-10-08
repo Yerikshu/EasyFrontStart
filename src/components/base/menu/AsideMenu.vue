@@ -4,7 +4,6 @@
     router
     text-color="#fffffa5"
     default-active="2"
-    class="el-menu-vertical-demo"
     active-text-color="white"
     :collapse="isCollapse"
     @open="handleOpen"
@@ -66,12 +65,6 @@
 
 <script setup>
 import { ref } from "vue";
-import {
-  Document,
-  Menu as IconMenu,
-  Location,
-  Setting,
-} from "@element-plus/icons-vue";
 
 const isCollapse = ref(false);
 const handleOpen = (key, keyPath) => {

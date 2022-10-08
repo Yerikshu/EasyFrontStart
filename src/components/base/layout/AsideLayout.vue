@@ -1,19 +1,24 @@
 <template>
-  <div>
-    <el-container style="height: auto">
-      <el-aside width="200px" style="height: auto">
-        <AsideMenu />
+  <div style="">
+    <el-container style="height: 100%">
+      <el-aside style="width: 250px;">
+        <AsideMenu  style="height: calc(100% - 45px); width: 250px;" />
       </el-aside>
-      <el-container >
-        <el-header style="text-align: right; font-size: 12px">
+      <el-container style="width: calc(100% - 250px)">
+        <el-header style="background-color: white; padding: 0px" height="64px">
           <TopMenu />
         </el-header>
+        <el-header style="background-color: white; padding: 0px" height="50px">
+          <SecondMenu />
+        </el-header>
         <el-main style="background-color: #f0f2f5">
-          <div style="padding: 5px">
-            <router-view> </router-view>
+          <div style="background-color: white; height: 100%; overflow: auto">
+            <router-view v-if="reloadFlag"> </router-view>
           </div>
         </el-main>
-        <el-footer>Footer</el-footer>
+        <el-footer style="padding: 0px; height: 45px; background-color: #f0f2f5"
+          >Footer</el-footer
+        >
       </el-container>
     </el-container>
   </div>
@@ -21,4 +26,8 @@
 <script setup>
 import TopMenu from "/src/components/base/menu/TopMenu.vue";
 import AsideMenu from "/src/components/base/menu/AsideMenu.vue";
+import SecondMenu from "/src/components/base/menu/SecondMenu.vue";
+import { ref } from "vue";
+
+const reloadFlag = ref(true);
 </script>
