@@ -1,4 +1,5 @@
-# EasyFrontStart
+# MercuryStart
+人人都是墨丘利，可以快速开始
 
 本项目基于vue3采用技术栈
 - Vue3
