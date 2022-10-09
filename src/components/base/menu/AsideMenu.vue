@@ -3,7 +3,7 @@
     background-color="#001529"
     router
     text-color="#fffffa5"
-    default-active="2"
+    :default-active="$route.path"
     active-text-color="white"
     :collapse="isCollapse"
     @open="handleOpen"
@@ -76,8 +76,8 @@ const handleClose = (key, keyPath) => {
 </script>
 
 <style>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
+/* .el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 250px;
   min-height: 400px;
-}
+} */
 </style>

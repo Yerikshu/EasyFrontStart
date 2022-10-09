@@ -1,10 +1,8 @@
 <template>
-  <div style="">
+  <div style="height: 100%">
     <el-container style="height: 100%">
-      <el-aside style="width: 250px;">
-        <AsideMenu  style="height: calc(100% - 45px); width: 250px;" />
-      </el-aside>
-      <el-container style="width: calc(100% - 250px)">
+      <AsideMenu style="overflow: auto; height: 100%" />
+      <el-container style="width: calc(100% - 100px)">
         <el-header style="background-color: white; padding: 0px" height="64px">
           <TopMenu />
         </el-header>

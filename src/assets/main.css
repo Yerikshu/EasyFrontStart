@@ -19,7 +19,7 @@ a,
 }
 
 @media (min-width: 1024px) {
-  body {
+  /* body {
     display: flex;
     place-items: center;
   }
@@ -27,5 +27,5 @@ a,
   #app {
     display: grid;
     grid-template-columns: 1fr 1fr;
-  }
+  } */
 }
