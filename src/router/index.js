@@ -12,27 +12,17 @@ const router = createRouter({
     // },
     {
       path: "/",
-      redirect: "/home",
+      redirect: "/home/console",
       component: () => import("/src/components/base/layout/AsideLayout.vue"),
       meta: {
         title: "首页",
       },
       children: [
         {
-          path: "/home",
-          component: () => import("/src/views/HomeView.vue"),
-          name: "Home",
-          meta: { title: "首页", icon: "el-icon-s-home", affix: true },
-        },
-        {
-          path: "/index/about",
-          name: "about",
-          component: () => import("/src/views/AboutView.vue"),
-          meta: {
-            title: "概要",
-            icon: "el-icon-s-home",
-            affix: true,
-          },
+          path: "/home/console",
+          component: () => import("/src/views/home/ConsoleView.vue"),
+          name: "console",
+          meta: { title: "控制台", icon: "el-icon-s-home", affix: true },
         },
       ],
     },

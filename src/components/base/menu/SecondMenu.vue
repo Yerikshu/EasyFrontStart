@@ -1,23 +1,37 @@
 <template>
   <el-row class="SecondRow">
     <el-breadcrumb separator="/" style="margin-left: 20px; align-self: center">
-      <el-breadcrumb-item v-for="item in list" :key="item.path">
-        {{ item.meta.title }}
+      <el-breadcrumb-item v-for="(item, index) in levelList" :key="item.path">
+        <span v-if="index == levelList.length - 1" class="no-redirect">
+          {{ item.meta.title }}
+        </span>
+        <router-link v-else :to="item.path">{{ item.meta.title }}</router-link>
       </el-breadcrumb-item>
     </el-breadcrumb>
   </el-row>
 </template>
-<script>
-export default {
-  name: "SecondMenu",
-  setup() {
-    let list = [];
+<script setup>
+import { reactive, watch } from "vue";
+import { useRoute } from "vue-router";
 
-    return {
-      list,
-    };
-  },
+const route = useRoute();
+const levelList = reactive([]);
+
+watch(route, () => {
+  getBreadcrumb();
+});
+
+const getBreadcrumb = () => {
+  let matched = route.matched.filter((item) => item.meta && item.meta.title);
+
+  levelList.length = 0;
+  const list = matched.filter(
+    (item) => item.meta && item.meta.title && item.meta.breadcrumb !== false
+  );
+  levelList.push(...list);
 };
+
+getBreadcrumb();
 </script>
 <style lang="scss" scoped>
 .SecondRow {
