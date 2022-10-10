@@ -15,9 +15,9 @@
           font-size: 20px;
           color: white;
           font-weight: 650;
-          margin-left: 30px;
+          margin-left: 20px;
         "
-        >EASYFRAME</span
+        >MercuryStart</span
       >
     </h3>
     <h3 v-else>
@@ -26,9 +26,9 @@
           font-size: 20px;
           color: white;
           font-weight: 650;
-          margin-left: 30px;
+          margin-left: 20px;
         "
-        >E</span
+        >M</span
       >
     </h3>
     <el-sub-menu index="1">
@@ -65,8 +65,14 @@
 
 <script setup>
 import { ref } from "vue";
+import emitter from "../../../utils/mitt";
 
-const isCollapse = ref(false);
+const isCollapse = ref(false)
+
+emitter.on("collapse", () => {
+  isCollapse.value = !isCollapse.value
+});
+
 const handleOpen = (key, keyPath) => {
   console.log(key, keyPath);
 };

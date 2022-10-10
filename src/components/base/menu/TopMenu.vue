@@ -35,9 +35,11 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import emitter from "../../../utils/mitt";
 
 const changeAside = () => {
-  changeIcon.value = !changeIcon.value
+  changeIcon.value = !changeIcon.value;
+  emitter.emit("collapse");
 };
 const changeIcon = ref(true);
 </script>
