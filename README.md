@@ -1,5 +1,5 @@
 # MercuryStart
-人人都是墨丘利，可以快速开始
+人人都是墨丘利，可以快速开始一个web基础项目，快速出原型，完成基础配置
 
 本项目基于vue3采用技术栈
 - Vue3
@@ -12,12 +12,13 @@
 
 # 开发规划
 1. 完成基础组件的配置
-  1. 路由跳转
-  2. 权限控制
-  3. 组件间三种数据传输模式
+    1. 路由跳转
+    2. 权限控制
+    3. 组件间三种数据传输模式
 2. 完成常见基础组件开发，即对elplus进行重组
-  1. el-table+el-page
-  2. mutifilter
+    1. el-table+el-page，方便结合个性化翻页
+    2. el-tree+slot+menu，方便给树加上菜单和个性化头部插槽
+    3. mutifilter，方便多选操作
   ... 
 
 ## Recommended IDE Setup
