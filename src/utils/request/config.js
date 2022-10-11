@@ -26,13 +26,13 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   (response) => {
-    if (true) {
+    if (response.status === 200) {
       redirect();
     } else {
       return response;
     }
   },
-  (error) => {
+  () => {
     return Promise.reject();
   }
 );
