@@ -3,35 +3,34 @@
     background-color="#001529"
     router
     text-color="#fffffa5"
+    class="aside-menu-vertical"
     :default-active="$route.path"
     active-text-color="white"
     :collapse="isCollapse"
-    @open="handleOpen"
-    @close="handleClose"
   >
-    <h3 v-if="!isCollapse">
-      <span
-        style="
-          font-size: 20px;
-          color: white;
-          font-weight: 650;
-          text-align: center;
-          margin-left: 35px;
-        "
-        >MercuryStart</span
-      >
+    <h3
+      v-if="!isCollapse"
+      style="
+        font-size: 20px;
+        color: white;
+        font-weight: 650;
+        text-align: center;
+        margin: 20px 0 30px 0;
+      "
+    >
+      MercuryStart
     </h3>
-    <h3 v-else>
-      <span
-        style="
-          font-size: 20px;
-          color: white;
-          font-weight: 650;
-          text-align: center;
-          margin-left: 20px;
-        "
-        >M</span
-      >
+    <h3
+      v-else
+      style="
+        font-size: 20px;
+        color: white;
+        font-weight: 650;
+        text-align: center;
+        margin: 20px 0 30px 0;
+      "
+    >
+      M
     </h3>
     <div v-for="(item, idx) of routerList" :key="'menu' + idx">
       <el-sub-menu :index="item.path" v-if="item.title === 'menu'">
@@ -52,14 +51,16 @@
               p-id="3108"
             ></path>
           </svg>
-          <span v-if="!isCollapse" style="margin-left: 5px;color: white;">首页</span>
+          <span v-if="!isCollapse" style="margin-left: 5px; color: white"
+            >首页</span
+          >
         </template>
         <el-menu-item
           v-for="(cItem, cIdx) of item.children"
           :key="'subMenu' + cIdx"
           :index="cItem.path"
         >
-          <span style="color: white;">{{ cItem.title }}</span>
+          <span style="color: white">{{ cItem.title }}</span>
         </el-menu-item>
       </el-sub-menu>
     </div>
@@ -98,7 +99,7 @@ const handleClose = (key, keyPath) => {
 </script>
 
 <style>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+.aside-menu-vertical:not(.el-menu--collapse) {
   width: 250px;
   min-height: 400px;
 }

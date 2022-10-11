@@ -14,9 +14,9 @@
           <router-view > </router-view>
         </div>
       </el-main>
-      <el-footer style="padding: 0px; height: 45px; background-color: #f0f2f5"
-        >Footer</el-footer
-      >
+      <el-footer style="padding: 0px; height: 45px; background-color: #f0f2f5">
+        <Footer />
+        </el-footer>
     </el-container>
   </el-container>
 </template>
@@ -24,6 +24,7 @@
 import TopMenu from "/src/components/base/menu/TopMenu.vue";
 import AsideMenu from "/src/components/base/menu/AsideMenu.vue";
 import SecondMenu from "/src/components/base/menu/SecondMenu.vue";
+import Footer from "./Footer.vue";
 
 // const reloadFlag = ;
 </script>
