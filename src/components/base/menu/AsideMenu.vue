@@ -68,8 +68,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import emitter from "../../../utils/mitt";
+import { ref, reactive } from "vue";
+import emitter from "@/utils/mitt";
 
 const isCollapse = ref(false);
 
@@ -77,7 +77,7 @@ emitter.on("collapse", () => {
   isCollapse.value = !isCollapse.value;
 });
 
-const routerList = ref([
+const routerList = reactive([
   {
     title: "menu",
     path: "/home",
