@@ -1,5 +1,5 @@
 import axios from "axios";
-import request from "request";
+import request from "./config";
 
 export const apiPost = (url, data) => {
   return request({
