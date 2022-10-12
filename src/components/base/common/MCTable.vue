@@ -42,16 +42,17 @@
     @cell-mouse-enter="handleCellMouseEnter"
     @cell-mouse-leave="handleCellMouseLeave"
     @cell-click="handleCellClick"
+    @cell-dblclick="handleCellDblclick"
     @cell-contextmenu="handleCellContextmenu"
     @row-click="handleRowClick"
     @row-contextmenu="handleRowContextmenu"
     @row-dblclick="handleRowDblclick"
-    @header-click="handleClick"
-    @header-contextmenu="handleContextmenu"
+    @header-click="handleHeaderClick"
+    @header-contextmenu="handleHeaderContextmenu"
     @sort-change="handleSortChange"
     @filter-change="handleFilterChange"
     @current-change="handleCurrentChange"
-    @header-dragend="handerDragend"
+    @header-dragend="handleHeaderDragend"
     @expand-change="handelExpandChange"
   >
     <el-table-column v-if="finalConfig.checkBox" type="selection" width="55" />
@@ -106,12 +107,33 @@
     <template #append v-if="finalConfig.appendSlot">
       <slot name="append" />
     </template>
+    <template #empty v-if="finalConfig.emptySlot">
+      <slot name="empty" />
+    </template>
   </el-table>
+  <div
+    style="margin-top: 20px; display: flex; flex-direction: row-reverse"
+    v-if="finalConfig.withPagination"
+  >
+    <el-pagination
+      v-model:currentPage="finalConfig.currentPage"
+      v-model:page-size="finalConfig.pageSize"
+      :page-sizes="[10, 20, 50, 200]"
+      :total="finalConfig.pageTotal"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      layout="total, sizes, prev, pager, next, jumper"
+    />
+  </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, defineEmits, reactive } from "vue";
+import { apiPost } from "@/utils/request";
 
-const finalConfig = ref({
+let table = ref();
+
+let loading = reactive(false);
+const finalConfig = reactive({
   withHeaderSlot: false,
   loadingText: "数据载入中",
   height: "480",
@@ -147,6 +169,201 @@ const finalConfig = ref({
   load: null,
   showOperateButton: true,
   operateButtonWidth: 200,
-  appendSlot: false
+  appendSlot: false,
+  emptySlot: false,
+  currentPage: 1,
+  pageSize: 10,
+  pageTotal: 0,
+  remote: false,
+  queryForm: {},
+  dataKey: "",
+  tableDataUrl: "",
+  pageTotalKey: "",
+  pageSizeKey: "",
+  currentPageKey: "",
+});
+
+const handleSelect = (selection, row) => {
+  emit("handleSelect", selection, row);
+};
+
+const handleSelectAll = (selection) => {
+  emit("handleSelectAll", selection);
+};
+const handleSelectionChange = (selection) => {
+  emit("handleSelectionChange", selection);
+};
+const handleCellMouseEnter = (row, column, cell, event) => {
+  emit("handleCellMouseEnter", row, column, cell, event);
+};
+const handleCellMouseLeave = (row, column, cell, event) => {
+  emit("handleCellMouseLeave", row, column, cell, event);
+};
+const handleCellClick = (row, column, cell, event) => {
+  emit("handleCellClick", row, column, cell, event);
+};
+const handleCellDblclick = (row, column, cell, event) => {
+  emit("handleCellDblclick", row, column, cell, event);
+};
+const handleCellContextmenu = (row, column, cell, event) => {
+  emit("handleCellContextmenu", row, column, cell, event);
+};
+const handleRowClick = (row, column, event) => {
+  emit("handleRowClick", row, column, event);
+};
+const handleRowContextmenu = (row, column, event) => {
+  emit("handleRowContextmenu", row, column, event);
+};
+const handleRowDblclick = (row, column, event) => {
+  emit("handleRowDblclick", row, column, event);
+};
+const handleHeaderClick = (column, event) => {
+  emit("handleHeaderClick", column, event);
+};
+const handleHeaderContextmenu = (column, event) => {
+  emit("handleHeaderContextmenu", column, event);
+};
+const handleSortChange = ({ column, prop, order }) => {
+  emit("handleSortChange", column, prop, order);
+};
+const handleFilterChange = (filters) => {
+  emit("handleFilterChange", filters);
+};
+const handleCurrentChange = (currentRow, oldCurrentRow) => {
+  emit("handleCurrentChange", currentRow, oldCurrentRow);
+};
+const handleHeaderDragend = (newWidth, oldWidth, column, event) => {
+  emit("handleHeaderDragend", newWidth, oldWidth, column, event);
+};
+const handelExpandChange = (row, status) => {
+  emit("handelExpandChange", row, status);
+};
+
+const emit = defineEmits([
+  "handleSelect",
+  "handleSelectAll",
+  "handleSelectionChange",
+  "handleCellMouseEnter",
+  "handleCellMouseLeave",
+  "handleCellClick",
+  "handleCellDblclick",
+  "handleCellContextmenu",
+  "handleRowClick",
+  "handleRowContextmenu",
+  "handleRowDblclick",
+  "handleHeaderClick",
+  "handleHeaderContextmenu",
+  "handleSortChange",
+  "handleFilterChange",
+  "handleCurrentChange",
+  "handleHeaderDragend",
+  "handelExpandChange",
+]);
+
+function clearSelection() {
+  table.value.clearSelection();
+}
+
+function getSelectionRows() {
+  table.value.getSelectionRows();
+}
+
+function toggleRowSelection(row, selected) {
+  table.value.toggleRowSelection(row, selected);
+}
+
+function toggleAllSelection() {
+  table.value.toggleAllSelection();
+}
+
+function toggleRowExpansion(row, expanded) {
+  table.value.toggleRowExpansion(row, expanded);
+}
+
+function setCurrentRow(row) {
+  table.value.setCurrentRow(row);
+}
+
+function clearSort() {
+  table.value.clearSort();
+}
+
+function clearFilter(columnKeys) {
+  table.value.clearSelection(columnKeys);
+}
+
+function doLayout() {
+  table.value.doLayout();
+}
+
+function sort(prop, order) {
+  table.value.sort(prop, order);
+}
+
+function scrollTo(options, yCoord) {
+  table.value.scrollTo(options, yCoord);
+}
+
+function setScrollTop(top) {
+  table.value.setScrollTop(top);
+}
+
+function setScrollLeft(left) {
+  table.value.setScrollLeft(left);
+}
+
+function updateTable() {
+  if (finalConfig.tableDataUrl && finalConfig.remote) {
+    loading = true;
+    apiPost(finalConfig.tableDataUrl, finalConfig.queryForm).then((res) => {
+      loading = false;
+      if (res.status === 200) {
+        if (finalConfig.dataKey) {
+          finalConfig.tableData = res.data.data[finalConfig.dataKey];
+        } else {
+          finalConfig.tableData = res.data.data;
+        }
+        if (finalConfig.pageTotalKey) {
+          finalConfig.pageTotal = res.data.data[finalConfig.pageTotalKey];
+        } else {
+          finalConfig.pageTotal = res.data.data.total;
+        }
+        if (finalConfig.pageSizeKey) {
+          finalConfig.pageSize = res.data.data[finalConfig.pageSizeKey];
+        } else {
+          finalConfig.pageSize = res.data.data.pageSize;
+        }
+        if (finalConfig.currentPageKey) {
+          finalConfig.currentPage = res.data.data[finalConfig.currentPageKey];
+        } else {
+          finalConfig.currentPage = res.data.data.currentPage;
+        }
+      }else{
+        if(res.data.data){
+          finalConfig.emptyText=res.data.data
+        }
+      }
+    }).catch(err=>{
+      loading=false
+      
+    });
+  }
+}
+
+defineExpose({
+  clearSelection,
+  getSelectionRows,
+  toggleRowSelection,
+  toggleAllSelection,
+  toggleRowExpansion,
+  setCurrentRow,
+  clearSort,
+  clearFilter,
+  doLayout,
+  sort,
+  scrollTo,
+  setScrollTop,
+  setScrollLeft,
+  updateTable,
 });
 </script>
