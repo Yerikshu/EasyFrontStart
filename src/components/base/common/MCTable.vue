@@ -51,7 +51,6 @@
     @header-contextmenu="handleHeaderContextmenu"
     @sort-change="handleSortChange"
     @filter-change="handleFilterChange"
-    @current-change="handleCurrentChange"
     @header-dragend="handleHeaderDragend"
     @expand-change="handelExpandChange"
   >
@@ -129,6 +128,7 @@
 <script setup>
 import { ref, defineEmits, reactive } from "vue";
 import { apiPost } from "@/utils/request";
+import { ElMessage } from "element-plus";
 
 let table = ref();
 
@@ -229,14 +229,29 @@ const handleSortChange = ({ column, prop, order }) => {
 const handleFilterChange = (filters) => {
   emit("handleFilterChange", filters);
 };
-const handleCurrentChange = (currentRow, oldCurrentRow) => {
-  emit("handleCurrentChange", currentRow, oldCurrentRow);
-};
+// const handleCurrentChange = (currentRow, oldCurrentRow) => {
+//   emit("handleCurrentChange", currentRow, oldCurrentRow);
+// };
 const handleHeaderDragend = (newWidth, oldWidth, column, event) => {
   emit("handleHeaderDragend", newWidth, oldWidth, column, event);
 };
 const handelExpandChange = (row, status) => {
   emit("handelExpandChange", row, status);
+};
+const handleSizeChange = (val) => {
+  if (finalConfig.pageSizeKey) {
+    finalConfig.queryForm[finalConfig.pageSizeKey] = val;
+  }
+  updateTable();
+  emit("sizeChange", val);
+};
+
+const handleCurrentChange = (val) => {
+  if (finalConfig.currentPageKey) {
+    finalConfig.queryForm[finalConfig.currentPageKey] = val;
+  }
+  updateTable();
+  emit("handleCurrentChange", val);
 };
 
 const emit = defineEmits([
@@ -258,6 +273,7 @@ const emit = defineEmits([
   "handleCurrentChange",
   "handleHeaderDragend",
   "handelExpandChange",
+  "sizeChange",
 ]);
 
 function clearSelection() {
@@ -315,38 +331,40 @@ function setScrollLeft(left) {
 function updateTable() {
   if (finalConfig.tableDataUrl && finalConfig.remote) {
     loading = true;
-    apiPost(finalConfig.tableDataUrl, finalConfig.queryForm).then((res) => {
-      loading = false;
-      if (res.status === 200) {
-        if (finalConfig.dataKey) {
-          finalConfig.tableData = res.data.data[finalConfig.dataKey];
+    apiPost(finalConfig.tableDataUrl, finalConfig.queryForm)
+      .then((res) => {
+        loading = false;
+        if (res.status === 200) {
+          if (finalConfig.dataKey) {
+            finalConfig.tableData = res.data.data[finalConfig.dataKey];
+          } else {
+            finalConfig.tableData = res.data.data;
+          }
+          if (finalConfig.pageTotalKey) {
+            finalConfig.pageTotal = res.data.data[finalConfig.pageTotalKey];
+          } else {
+            finalConfig.pageTotal = res.data.data.total;
+          }
+          if (finalConfig.pageSizeKey) {
+            finalConfig.pageSize = res.data.data[finalConfig.pageSizeKey];
+          } else {
+            finalConfig.pageSize = res.data.data.pageSize;
+          }
+          if (finalConfig.currentPageKey) {
+            finalConfig.currentPage = res.data.data[finalConfig.currentPageKey];
+          } else {
+            finalConfig.currentPage = res.data.data.currentPage;
+          }
         } else {
-          finalConfig.tableData = res.data.data;
+          if (res.data.data) {
+            finalConfig.emptyText = res.data.data;
+          }
         }
-        if (finalConfig.pageTotalKey) {
-          finalConfig.pageTotal = res.data.data[finalConfig.pageTotalKey];
-        } else {
-          finalConfig.pageTotal = res.data.data.total;
-        }
-        if (finalConfig.pageSizeKey) {
-          finalConfig.pageSize = res.data.data[finalConfig.pageSizeKey];
-        } else {
-          finalConfig.pageSize = res.data.data.pageSize;
-        }
-        if (finalConfig.currentPageKey) {
-          finalConfig.currentPage = res.data.data[finalConfig.currentPageKey];
-        } else {
-          finalConfig.currentPage = res.data.data.currentPage;
-        }
-      }else{
-        if(res.data.data){
-          finalConfig.emptyText=res.data.data
-        }
-      }
-    }).catch(err=>{
-      loading=false
-      
-    });
+      })
+      .catch(() => {
+        loading = false;
+        ElMessage.warning("获取数据异常");
+      });
   }
 }
 
