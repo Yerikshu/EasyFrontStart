@@ -14,7 +14,7 @@
           <router-view > </router-view>
         </div>
       </el-main>
-      <el-footer style="padding: 0px; height: 45px; background-color: #f0f2f5">
+      <el-footer style="padding: 0px; height: 60px; background-color: #f0f2f5">
         <Footer />
         </el-footer>
     </el-container>
