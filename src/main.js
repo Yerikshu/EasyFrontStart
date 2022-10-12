@@ -3,7 +3,6 @@ import { createPinia } from "pinia";
 
 import App from "./App.vue";
 import router from "./router";
-import mitt from "mitt";
 
 import "./assets/main.css";
 import ElementPlus from "element-plus";
@@ -17,7 +16,6 @@ app.use(createPinia());
 app.use(router);
 app.use(ElementPlus, { locale: zhCn });
 // vue3.x的全局实例，要挂载在config.globalProperties上
-app.config.globalProperties.$EventBus = new mitt();
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }
