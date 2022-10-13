@@ -52,7 +52,7 @@
     @sort-change="handleSortChange"
     @filter-change="handleFilterChange"
     @header-dragend="handleHeaderDragend"
-    @expand-change="handelExpandChange"
+    @expand-change="handleExpandChange"
     @current-change="handleCurrentChange"
   >
     <el-table-column v-if="finalConfig.checkBox" type="selection" width="55" />
@@ -259,8 +259,8 @@ const handleCurrentChange = (currentRow, oldCurrentRow) => {
 const handleHeaderDragend = (newWidth, oldWidth, column, event) => {
   emit("handleHeaderDragend", newWidth, oldWidth, column, event);
 };
-const handelExpandChange = (row, status) => {
-  emit("handelExpandChange", row, status);
+const handleExpandChange = (row, status) => {
+  emit("handleExpandChange", row, status);
 };
 const handleSizeChange = (val) => {
   if (finalConfig.value.pageSizeKey) {
@@ -297,7 +297,7 @@ const emit = defineEmits([
   "handleFilterChange",
   "handleCurrentChange",
   "handleHeaderDragend",
-  "handelExpandChange",
+  "handleExpandChange",
   "sizeChange",
 ]);
 
