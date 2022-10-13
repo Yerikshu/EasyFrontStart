@@ -50,7 +50,32 @@ import { ref, defineEmits, reactive, computed, handleError } from "vue";
 let tree = ref();
 
 let loading = reactive(false);
-let initConfig = reactive({});
+let initConfig = reactive({
+    data:[],
+    emptyText: "",
+    nodeKey: "",
+    props: Object,
+    renderAfterExpand: true,
+    load: "",
+    renderContent: null,
+    highlightCurrent: false,
+    defaultExpandAll: false,
+    expandOnClickNode: true,
+    autoExpandParent: true,
+    showCheckbox: false,
+    checkStrictly: false,
+    defaultCheckedKeys: [],
+    currentNodeKey: null,
+    filterNodeMethod: null,
+    accordion: false,
+    indent: 18,
+    icon: null,
+    lazy: false,
+    draggable: false,
+    allowDrag: null,
+    allowDrop: null
+
+});
 
 const props = defineProps({
   config: {
@@ -72,6 +97,30 @@ let finalConfig = computed({
     emit("update:config", value);
   },
 });
+
+const handleNodeClick = (nodeObecjt, nodeProperty, treeNode, event)=>{
+    emit("node-click", nodeObecjt, nodeProperty, treeNode, event)
+}
+const handleNodeContextmenu = (event, nodeObject, node, self)=>{
+    emit("node-contextmenu", event, nodeObject, node, self)
+}
+const handleCheckChange = (data, selected, selectedObject)=>{
+    emit("check-change",data, selected, selectedObject)
+}
+const handleCheck = (dataObject, node)=>{
+    emit("check", dataObject, node)
+}
+const handleCurrentChange = (data, node)=>{
+    emit("current-change", data, node)
+}
+const handleNodeExpand = ()=>{}
+const handleNodeCollapse = ()=>{}
+const handleNodeDragStart = ()=>{}
+const handleNodeDragEnter = ()=>{}
+const handleNodeDragLeave = ()=>{}
+const handleNodeDragOver = ()=>{}
+const handleNodeDragEnd = ()=>{}
+const handleNodeDrop = ()=>{}
 
 function updateTree(){}
 
