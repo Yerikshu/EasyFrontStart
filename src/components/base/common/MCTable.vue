@@ -61,7 +61,7 @@
         :index="column.index"
         :label="column.label"
         :column-key="column.columnKey"
-        :prop="column.prop"
+        :prop="column.key"
         :width="column.width"
         :min-width="column.minWidth"
         :fixed="column.fixed"
@@ -126,14 +126,14 @@
   </div>
 </template>
 <script setup>
-import { ref, defineEmits, reactive } from "vue";
+import { ref, defineEmits, reactive, computed } from "vue";
 import { apiPost } from "@/utils/request";
 import { ElMessage } from "element-plus";
 
 let table = ref();
 
 let loading = reactive(false);
-const finalConfig = reactive({
+let initConfig = reactive({
   withHeaderSlot: false,
   loadingText: "数据载入中",
   height: "480",
@@ -155,6 +155,7 @@ const finalConfig = reactive({
   scrollbarAlwaysOn: false,
   flexible: false,
   tableData: [],
+  columns: [],
   rowClassName: null,
   cellClassName: null,
   cellStyle: null,
@@ -181,6 +182,28 @@ const finalConfig = reactive({
   pageTotalKey: "",
   pageSizeKey: "",
   currentPageKey: "",
+  immediateRemote: false,
+});
+
+const props = defineProps({
+  config: {
+    type: Object,
+    require: true,
+  },
+});
+
+let finalConfig = computed({
+  get() {
+    let tmpConfig = Object.assign(initConfig, props.config);
+    if (tmpConfig.immediateRemote) {
+      updateTable();
+    }
+    console.log(tmpConfig)
+    return tmpConfig;
+  },
+  set(value) {
+    emit("update:config", value);
+  },
 });
 
 const handleSelect = (selection, row) => {
@@ -239,22 +262,23 @@ const handelExpandChange = (row, status) => {
   emit("handelExpandChange", row, status);
 };
 const handleSizeChange = (val) => {
-  if (finalConfig.pageSizeKey) {
-    finalConfig.queryForm[finalConfig.pageSizeKey] = val;
+  if (finalConfig.value.pageSizeKey) {
+    finalConfig.value.queryForm[finalConfig.value.pageSizeKey] = val;
   }
   updateTable();
   emit("sizeChange", val);
 };
 
 const handleCurrentChange = (val) => {
-  if (finalConfig.currentPageKey) {
-    finalConfig.queryForm[finalConfig.currentPageKey] = val;
+  if (finalConfig.value.currentPageKey) {
+    finalConfig.value.queryForm[finalConfig.value.currentPageKey] = val;
   }
   updateTable();
   emit("handleCurrentChange", val);
 };
 
 const emit = defineEmits([
+  "update:config",
   "handleSelect",
   "handleSelectAll",
   "handleSelectionChange",
@@ -329,35 +353,39 @@ function setScrollLeft(left) {
 }
 
 function updateTable() {
-  if (finalConfig.tableDataUrl && finalConfig.remote) {
+  if (finalConfig.value.tableDataUrl && finalConfig.value.remote) {
     loading = true;
-    apiPost(finalConfig.tableDataUrl, finalConfig.queryForm)
+    apiPost(finalConfig.value.tableDataUrl, finalConfig.value.queryForm)
       .then((res) => {
         loading = false;
         if (res.status === 200) {
-          if (finalConfig.dataKey) {
-            finalConfig.tableData = res.data.data[finalConfig.dataKey];
+          if (finalConfig.value.dataKey) {
+            finalConfig.value.tableData =
+              res.data.data[finalConfig.value.dataKey];
           } else {
-            finalConfig.tableData = res.data.data;
+            finalConfig.value.tableData = res.data.data;
           }
-          if (finalConfig.pageTotalKey) {
-            finalConfig.pageTotal = res.data.data[finalConfig.pageTotalKey];
+          if (finalConfig.value.pageTotalKey) {
+            finalConfig.value.pageTotal =
+              res.data.data[finalConfig.value.pageTotalKey];
           } else {
-            finalConfig.pageTotal = res.data.data.total;
+            finalConfig.value.pageTotal = res.data.data.total;
           }
-          if (finalConfig.pageSizeKey) {
-            finalConfig.pageSize = res.data.data[finalConfig.pageSizeKey];
+          if (finalConfig.value.pageSizeKey) {
+            finalConfig.value.pageSize =
+              res.data.data[finalConfig.value.pageSizeKey];
           } else {
-            finalConfig.pageSize = res.data.data.pageSize;
+            finalConfig.value.pageSize = res.data.data.pageSize;
           }
-          if (finalConfig.currentPageKey) {
-            finalConfig.currentPage = res.data.data[finalConfig.currentPageKey];
+          if (finalConfig.value.currentPageKey) {
+            finalConfig.value.currentPage =
+              res.data.data[finalConfig.value.currentPageKey];
           } else {
-            finalConfig.currentPage = res.data.data.currentPage;
+            finalConfig.value.currentPage = res.data.data.currentPage;
           }
         } else {
           if (res.data.data) {
-            finalConfig.emptyText = res.data.data;
+            finalConfig.value.emptyText = res.data.data;
           }
         }
       })
