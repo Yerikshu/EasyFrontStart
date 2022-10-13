@@ -53,6 +53,7 @@
     @filter-change="handleFilterChange"
     @header-dragend="handleHeaderDragend"
     @expand-change="handelExpandChange"
+    @current-change="handleCurrentChange"
   >
     <el-table-column v-if="finalConfig.checkBox" type="selection" width="55" />
     <template v-for="(column, idx) in finalConfig.columns" :key="column.key">
@@ -120,7 +121,7 @@
       :page-sizes="[10, 20, 50, 200]"
       :total="finalConfig.pageTotal"
       @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
+      @current-change="handlePageCurrentChange"
       layout="total, sizes, prev, pager, next, jumper"
     />
   </div>
@@ -252,9 +253,9 @@ const handleSortChange = ({ column, prop, order }) => {
 const handleFilterChange = (filters) => {
   emit("handleFilterChange", filters);
 };
-// const handleCurrentChange = (currentRow, oldCurrentRow) => {
-//   emit("handleCurrentChange", currentRow, oldCurrentRow);
-// };
+const handleCurrentChange = (currentRow, oldCurrentRow) => {
+   emit("handleCurrentChange", currentRow, oldCurrentRow);
+ };
 const handleHeaderDragend = (newWidth, oldWidth, column, event) => {
   emit("handleHeaderDragend", newWidth, oldWidth, column, event);
 };
@@ -269,12 +270,12 @@ const handleSizeChange = (val) => {
   emit("sizeChange", val);
 };
 
-const handleCurrentChange = (val) => {
-  if (finalConfig.value.currentPageKey) {
-    finalConfig.value.queryForm[finalConfig.value.currentPageKey] = val;
+const handlePageCurrentChange = (val) => {
+  if (finalConfig.currentPageKey) {
+    finalConfig.queryForm[finalConfig.currentPageKey] = val;
   }
   updateTable();
-  emit("handleCurrentChange", val);
+  emit("handlePageCurrentChange", val);
 };
 
 const emit = defineEmits([

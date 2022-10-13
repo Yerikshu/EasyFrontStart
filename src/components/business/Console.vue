@@ -2,8 +2,9 @@
   <MCTable v-model:config="config" />
 </template>
 <script setup>
-import ref from "vue";
-import MCTable from "src/components/base/common/MCTable.vue";
+import { ref } from "vue";
+import MCTable from "/src/components/base/common/MCTable.vue";
+
 let config = ref({
   remote: false,
   tableData: [
@@ -42,5 +43,6 @@ let config = ref({
       key: "address",
     },
   ],
+  showOperateButton: false,
 });
 </script>
