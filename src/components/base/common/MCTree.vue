@@ -42,7 +42,7 @@
     @node-drag-end="handleNodeDragEnd"
     @node-drop="handleNodeDrop"
   >
-  </el-tree-select>
+  </el-tree>
 </template>
 <script setup>
 import { ref, defineEmits, reactive, computed, handleError } from "vue";
