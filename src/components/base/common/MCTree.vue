@@ -43,11 +43,54 @@
       @node-drag-end="handleNodeDragEnd"
       @node-drop="handleNodeDrop"
     >
+      <template v-slot="{ node }">
+        <el-dropdown
+          v-if="finalConfig.menu"
+          trigger="contextmenu"
+          @command="handleClickMenu"
+        >
+          <template v-if="finalConfig.slot">
+            <slot :data="{ node }"></slot
+          ></template>
+          <span class="tree_label" v-else-if="node.data.content.length === 0">
+            {{ node.label }}</span
+          >
+          <el-tooltip
+            v-else
+            effect="dark"
+            placement="right"
+            :content="node.data.content"
+          >
+            <span class="tree_label">{{ node.label }}</span></el-tooltip
+          >
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item
+                v-for="item in finalConfig.menuData"
+                :key="item.value"
+                :command="item.value"
+                >{{ item.name }}</el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        <span class="tree_label" v-else-if="node.data.content.length === 0">
+          {{ node.label }}</span
+        >
+        <el-tooltip
+          v-else
+          effect="dark"
+          placement="right"
+          :content="node.data.content"
+        >
+          <span class="tree_label">{{ node.label }}</span></el-tooltip
+        >
+      </template>
     </el-tree>
   </el-scrollbar>
 </template>
 <script setup>
-import { ref, defineEmits, reactive, computed, handleError } from "vue";
+import { ref, defineEmits, reactive, computed } from "vue";
 
 let tree = ref();
 
