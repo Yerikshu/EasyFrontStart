@@ -200,4 +200,87 @@ const emit = defineEmits([
   "node-drag-end",
   "node-drop",
 ]);
+
+function filter() {
+  tree.value.filter();
+}
+
+function updateKeyChildren(key, data) {
+  tree.value.updateKeyChildren(key, data);
+}
+function getCheckedNodes(leafOnly, includeHalfChecked) {
+  tree.value.getCheckedNodes(leafOnly, includeHalfChecked);
+}
+function setCheckedNodes(nodes) {
+  tree.value.setCheckedNodes(nodes);
+}
+function getCheckedKeys(leafOnly) {
+  tree.value.getCheckedKeys(leafOnly);
+}
+function setCheckedKeys(keys, leafOnly) {
+  tree.value.setCheckedKeys(keys, leafOnly);
+}
+function setChecked(data, checked, deep) {
+  tree.value.setChecked(data, checked, deep);
+}
+function getHalfCheckedNodes() {
+  tree.value.getHalfCheckedNodes();
+}
+function getHalfCheckedKeys() {
+  tree.value.getHalfCheckedKeys();
+}
+function getCurrentKey() {
+  tree.value.getCurrentKey();
+}
+function getCurrentNode() {
+  tree.value.getCurrentNode();
+}
+
+function setCurrentKey(key, shouldAutoExpandParent) {
+  tree.value.getCurrentNode(key, shouldAutoExpandParent);
+}
+
+function setCurrentNode(key, shouldAutoExpandParent) {
+  tree.value.setCurrentNode(key, shouldAutoExpandParent);
+}
+
+function getNode(data) {
+  tree.value.getNode(data);
+}
+
+function remove(data) {
+  tree.value.remove(data);
+}
+
+function append(data, parentNode) {
+  tree.value.append(data, parentNode);
+}
+
+function insertBefore(data, refNode) {
+  tree.value.insertBefore(data, refNode);
+}
+
+function insertAfter(data, refNode) {
+  tree.value.insertAfter(data, refNode);
+}
+
+defineExpose({
+  filter,
+  updateKeyChildren,
+  setCheckedNodes,
+  getCheckedKeys,
+  setCheckedKeys,
+  setChecked,
+  getHalfCheckedNodes,
+  getHalfCheckedKeys,
+  getCurrentKey,
+  getCurrentNode,
+  setCurrentKey,
+  setCurrentNode,
+  getNode,
+  remove,
+  append,
+  insertBefore,
+  insertAfter,
+});
 </script>
