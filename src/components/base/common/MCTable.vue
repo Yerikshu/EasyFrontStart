@@ -199,7 +199,7 @@ let finalConfig = computed({
     if (tmpConfig.immediateRemote) {
       updateTable();
     }
-    console.log(tmpConfig)
+    console.log(tmpConfig);
     return tmpConfig;
   },
   set(value) {
@@ -254,8 +254,8 @@ const handleFilterChange = (filters) => {
   emit("handleFilterChange", filters);
 };
 const handleCurrentChange = (currentRow, oldCurrentRow) => {
-   emit("handleCurrentChange", currentRow, oldCurrentRow);
- };
+  emit("handleCurrentChange", currentRow, oldCurrentRow);
+};
 const handleHeaderDragend = (newWidth, oldWidth, column, event) => {
   emit("handleHeaderDragend", newWidth, oldWidth, column, event);
 };
@@ -271,8 +271,8 @@ const handleSizeChange = (val) => {
 };
 
 const handlePageCurrentChange = (val) => {
-  if (finalConfig.currentPageKey) {
-    finalConfig.queryForm[finalConfig.currentPageKey] = val;
+  if (finalConfig.value.currentPageKey) {
+    finalConfig.value.queryForm[finalConfig.value.currentPageKey] = val;
   }
   updateTable();
   emit("handlePageCurrentChange", val);
