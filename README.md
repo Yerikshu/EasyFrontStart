@@ -32,6 +32,7 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 ## Project Setup
 
 ```sh
+npx vite
 npm install
 ```
 
@@ -52,3 +53,4 @@ npm run build
 ```sh
 npm run lint
 ```
+
